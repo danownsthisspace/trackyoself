@@ -1,7 +1,7 @@
 <script>
   import { fly } from "svelte/transition";
   import { onMount, afterUpdate } from "svelte";
-  import { createSlug } from "../utils";
+  import { createSlug, createUid } from "../utils";
 
   import { db } from "../firebase";
 
@@ -21,11 +21,12 @@
 
   function createTracker() {
     if (!formValid) return;
-    const trackerId = `${createSlug(newRecordTitle)}-${new Date()}`;
-    db.collection(`trackers-${uid}`)
+    const trackerId = `${createSlug(newRecordTitle)}-${createUid()}`;
+    db.collection(`trackers`)
       .doc(trackerId)
       .set({
         id: trackerId,
+        uid,
         type: newRecordType,
         title: newRecordTitle,
         dateCreated: new Date(),
@@ -33,10 +34,10 @@
         previousValues: []
       })
       .then(res => {
-        console.log("DONE=", res);
+        // console.log("DONE=", res);
       })
       .catch(err => {
-        console.log("ERR=", err);
+        // console.log("ERR=", err);
       });
 
     newRecordTitle = "";

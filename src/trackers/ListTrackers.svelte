@@ -7,9 +7,13 @@
   import { startWith } from "rxjs/operators";
 
   export let uid;
-  const collectionName = `trackers-${uid}`;
+  let collectionName = "trackers";
+
   // Query requires an index, see screenshot below
-  const query = db.collection(collectionName).orderBy("dateCreated", "desc");
+  const query = db
+    .collection(collectionName)
+    .where("uid", "==", uid)
+    .orderBy("dateCreated", "desc");
   const trackers = collectionData(query, "id").pipe(startWith([]));
 
   function updateTracker(event) {
@@ -28,12 +32,12 @@
   }
 </script>
 
-<div out:fade in:fly={{ x: 0, y: -300 }}>
-  {#each $trackers as tracker (tracker.id)}
+{#each $trackers as tracker (tracker.id)}
+  <div out:fade in:fly={{ x: 0, y: -300 }}>
     {#if tracker.type === 'time'}
       <Timer on:remove={removeTracker} on:update={updateTracker} {tracker} />
     {:else if tracker.type === 'count'}
       <Counter on:remove={removeTracker} on:update={updateTracker} {tracker} />
     {/if}
-  {/each}
-</div>
+  </div>
+{/each}
