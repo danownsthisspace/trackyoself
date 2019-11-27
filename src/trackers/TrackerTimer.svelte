@@ -101,7 +101,7 @@
       id: tracker.id,
       currentValue: tracker.currentValue,
       timeStarted: tracker.timeStarted,
-      previousValues: []
+      previousValues: tracker.previousValues
     });
   }
 </script>
