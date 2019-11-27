@@ -47,7 +47,7 @@
     let timeStopped = new Date();
     let timeElapsed = Math.abs(timeStarted - timeStopped) / 1000;
     tracker.previousValues.push({
-      timeStarted: timeStarted,
+      timeStarted,
       timeStopped,
       timeElapsed
     });
@@ -55,6 +55,7 @@
       (total, pv) => (total += pv.timeElapsed),
       0
     );
+    tracker.timeStarted = null;
     update();
     clearInterval(timerInterval);
     timerRunning = false;
