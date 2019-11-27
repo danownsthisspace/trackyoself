@@ -1,14 +1,23 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import TrackerControls from "./TrackerControls.svelte";
 
   const dispatch = createEventDispatcher();
 
   export let tracker;
-  let timeStarted;
+
+  let timeStarted = null;
   let timerRunning = false;
   let timeProcessed = null;
   let timerInterval = null;
+
+  onMount(() => {
+    if (tracker.timeStarted) {
+      timerRunning = true;
+      timeStarted = tracker.timeStarted.toDate();
+      startInterval();
+    }
+  });
 
   function toggleTimer() {
     if (timerRunning) {
@@ -20,9 +29,15 @@
 
   function startTimer() {
     if (timerRunning) return;
-    timeStarted = new Date();
-    timerRunning = true;
+    tracker.timeStarted = new Date();
+    timeStarted = tracker.timeStarted;
     timeProcessed = timeDiff(null);
+    startInterval();
+    update();
+  }
+
+  function startInterval() {
+    timerRunning = true;
     timerInterval = setInterval(() => {
       timeProcessed = timeDiff(timeStarted, new Date());
     }, 1000);
@@ -32,7 +47,7 @@
     let timeStopped = new Date();
     let timeElapsed = Math.abs(timeStarted - timeStopped) / 1000;
     tracker.previousValues.push({
-      timeStarted,
+      timeStarted: timeStarted,
       timeStopped,
       timeElapsed
     });
@@ -84,6 +99,7 @@
     dispatch("update", {
       id: tracker.id,
       currentValue: tracker.currentValue,
+      timeStarted: tracker.timeStarted,
       previousValues: []
     });
   }

@@ -17,7 +17,6 @@
   const trackers = collectionData(query, "id").pipe(startWith([]));
 
   function updateTracker(event) {
-    console.log("event=", event.detail);
     const { id, newStatus } = event.detail;
     db.collection(collectionName)
       .doc(event.detail.id)
