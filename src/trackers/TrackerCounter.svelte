@@ -45,5 +45,7 @@
       on:action={increment}
       on:reset={reset}
       on:remove={remove} />
+
+    <div>Created: {tracker.dateCreated.toDate().toLocaleString()}</div>
   </div>
 </div>

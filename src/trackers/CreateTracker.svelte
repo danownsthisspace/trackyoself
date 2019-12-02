@@ -1,6 +1,6 @@
 <script>
   import { fly } from "svelte/transition";
-  import { onMount, afterUpdate } from "svelte";
+  import { afterUpdate } from "svelte";
   import { createSlug, createUid } from "../utils";
 
   import { db } from "../firebase";
@@ -13,9 +13,9 @@
   let closed = true;
   let loading = true;
 
-  onMount(() => {});
-
   $: if (newRecordTitle.trim().length > 0 && newRecordType) {
+    console.log("HERE");
+
     formValid = true;
   }
 
@@ -41,7 +41,8 @@
       });
 
     newRecordTitle = "";
-    newRecordType = null;
+    newRecordType = "";
+    formValid = false;
     closed = true;
   }
 </script>
