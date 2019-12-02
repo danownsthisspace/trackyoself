@@ -14,8 +14,6 @@
   let loading = true;
 
   $: if (newRecordTitle.trim().length > 0 && newRecordType) {
-    console.log("HERE");
-
     formValid = true;
   }
 
