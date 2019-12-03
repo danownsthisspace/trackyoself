@@ -1,6 +1,4 @@
 <script>
-  import { fly } from "svelte/transition";
-  import { afterUpdate } from "svelte";
   import { createSlug, createUid } from "../utils";
 
   import { db } from "../firebase";

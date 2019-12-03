@@ -9,7 +9,7 @@
   let user;
   let loading = true;
 
-  const unsubscribe = authState(auth).subscribe(u => {
+  authState(auth).subscribe(u => {
     user = u;
     loading = false;
   });
@@ -56,39 +56,35 @@
   }
 </style>
 
-<section>
+{#if loading}
+  <Loader />
+{:else if user}
+  <div class="main-container">
+    <div class="main">
+      <div class="margin-bottom-small">
+        <CreateTracker uid={user.uid} />
+      </div>
+      <ListTrackers uid={user.uid} />
+    </div>
+  </div>
+{:else}
+  <div class="homepage">
 
-  {#if loading}
-    <Loader />
-  {:else if user}
-    <div class="main-container">
-      <div class="main">
-        <div class="margin-bottom-small">
-          <CreateTracker uid={user.uid} />
-        </div>
-        <ListTrackers uid={user.uid} />
+    <div class="card homepage-card">
+      <img src="/img/logo.jpg" alt="Track Yo'self logo" />
+
+      <div class="card-body">
+        <h1 class="homepage-heading card-title">Track Yo'Self!</h1>
+        <h5 class="card-subtitle">
+          The easiest way to track all your activity in one place.
+        </h5>
+        <p class="card-text" />
+        <button class="homepage-login-button" on:click={login}>
+          <img class="google-logo" src="/img/google.png" alt="Google Logo" />
+          Signin with Google
+        </button>
       </div>
     </div>
-  {:else}
-    <div class="homepage">
 
-      <div class="card homepage-card">
-        <img src="/img/logo.jpg" alt="Track Yo'self logo" />
-
-        <div class="card-body">
-          <h1 class="homepage-heading card-title">Track Yo'Self!</h1>
-          <h5 class="card-subtitle">
-            The easiest way to track all your activity in one place.
-          </h5>
-          <p class="card-text" />
-          <button class="homepage-login-button" on:click={login}>
-            <img class="google-logo" src="/img/google.png" alt="Google Logo" />
-            Signin with Google
-          </button>
-        </div>
-      </div>
-
-    </div>
-  {/if}
-
-</section>
+  </div>
+{/if}
