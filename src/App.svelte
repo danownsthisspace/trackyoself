@@ -29,10 +29,8 @@
     max-width: 25em;
     padding: 1em;
     margin: 0 auto;
-    margin: 1rem;
-    margin-top: 20px;
-    margin: 0 auto;
   }
+
   .homepage {
     height: 100vh;
     max-width: 30rem;
